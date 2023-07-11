@@ -8,38 +8,47 @@ import sys
 import wget
 non_bmp_map = dict.fromkeys(range(0x10000, sys.maxunicode + 1), 0xfffd)
 
-txt = input("number of clear note :")
+# Retrieve command-line arguments
+args = sys.argv
+note_id = ""
 
-pre="https://www.clearnotebooks.com/zh-TW/notebooks/"
-ind=txt
-picP="https://www.clearnotebooks.com/zh-TW/public_page?note_id="
-pag="&page="
-subjpg=".jpg"
-totalP=pre+ind
+# Parse command-line arguments
+for arg in args:
+    if "--id=" in arg:
+        note_id = arg.split("=")[1]
 
-r0 = requests.get(totalP) #將網頁資料GET下來
+# Prompt for input if note_id is not provided as a command-line argument
+if not note_id:
+    note_id = input("number of clear note: ")
+
+pre = "https://www.clearnotebooks.com/zh-TW/notebooks/"
+ind = note_id
+picP = "https://www.clearnotebooks.com/zh-TW/public_page?note_id="
+pag = "&page="
+subjpg = ".jpg"
+totalP = pre + ind
+
+r0 = requests.get(totalP)  # Retrieve web page data
 r0.encoding = 'utf-8'
-soup0 = BeautifulSoup(r0.text,"html.parser") #將網頁資料以html.parser
+soup0 = BeautifulSoup(r0.text, "html.parser")
 count = soup0.find_all("div", {"class": "pages__page__container"})
-ci=0
+ci = 0
 ttl = soup0.find("h1", {"class": "notebook__title"}).text
-print (ttl)
+print(ttl)
 print("=====")
 for objc in count:
     print("=====")
-    print (ci)
+    print(ci)
     print("=====")
-    rq=picP+ind+pag+str(ci)
-    r = requests.get(rq) #將網頁資料GET下來
+    rq = picP + ind + pag + str(ci)
+    r = requests.get(rq)  # Retrieve web page data
     r.encoding = 'utf-8'
-    #print(r.text)
-    soup = BeautifulSoup(r.text,"html.parser") #將網頁資料以html.parser
+    soup = BeautifulSoup(r.text, "html.parser")
     images = soup.findAll('img')
-    iurl=images[0]['src']
-    iname=ttl+str(ci)+subjpg
+    iurl = images[0]['src']
+    iname = ttl + str(ci) + subjpg
     try:
-        filename = wget.download(iurl,iname)
+        filename = wget.download(iurl, iname)
     except:
         pass
-    ci=ci+1
-
+    ci = ci + 1
