@@ -13,7 +13,6 @@ class ClearNotebooksScraper:
     def __init__(self, note_id):
         self.note_id = note_id
 
-
     def safe_file_name(self,file_name, os_type):
         # Remove leading/trailing whitespaces
         file_name = file_name.strip()
