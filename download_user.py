@@ -7,7 +7,7 @@ import urllib
 import sys
 import wget
 import re
-from py_web_clear import ClearNotebooksScraper
+from download_notebook import ClearNotebooksScraper
 
 class ClearUsrScraper:
     def __init__(self, usr_id):
@@ -33,7 +33,8 @@ class ClearUsrScraper:
 
     def re_nx(self,test_str):
         print("=====next=====")
-        regex = r"<a class=\"boxed\" href=\"(/zh-TW/authors/\d+/explorer/notebooks\?author_id=\d+&amp;offset=\d+)\">\d+</a><span class='pagination-info'>"
+        #regex = r"<a class=\"boxed\" href=\"(/zh-TW/authors/\d+/explorer/notebooks\?author_id=\d+&amp;offset=\d+)\">\d+</a><span class='pagination-info'>"
+        regex=r"<a class=\"boxed\" href=\"(/zh-TW/authors/\d+/explorer/notebooks\?author_id=\d+&amp;offset=\d+)\"><i class='fas fa-arrow-right'></i>"
         matches = re.search(regex, test_str)
 
         if matches:
