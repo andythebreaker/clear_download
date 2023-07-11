@@ -1,5 +1,9 @@
 # clear_download
 學習筆記網站clear的下載程式(使用python)(狀態:大致完成)
+
+![image](https://github.com/andythebreaker/clear_download/assets/43373581/76448b69-8dc4-4d2a-bd7f-a1f0dfe04c37)
+
+
 ## 這是甚麼
 ## 聲明
 ## 操作環境
