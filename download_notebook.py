@@ -8,6 +8,7 @@ import sys
 import wget
 import re
 import os
+import csv
 
 class ClearNotebooksScraper:
     def __init__(self, note_id):
@@ -48,6 +49,18 @@ class ClearNotebooksScraper:
         ci = 0
         ttl = soup0.find("h1", {"class": "notebook__title"}).text
         print(ttl)
+
+        #workflow
+        # Open the CSV file in append mode
+        with open(ind+'.csv', 'a', newline='') as csvfile:
+            # Create a CSV writer object
+            csvwriter = csv.writer(csvfile)
+
+            # Write the text to the CSV file
+            csvwriter.writerow([ttl])
+
+        print(f"Text '{ttl}' appended to {ind} successfully.")
+
         print("=====")
         for objc in count:
             print("=====")
@@ -61,7 +74,8 @@ class ClearNotebooksScraper:
             iurl = images[0]['src']
             iname = ttl + str(ci) + subjpg
             try:
-                filename = wget.download(iurl, self.remove_any_kind_of_new_line(self.safe_file_name(iname,os.name)))#java' for Java Jython platforms.
+                #filename = wget.download(iurl, self.remove_any_kind_of_new_line(self.safe_file_name(iname,os.name)))#java' for Java Jython platforms.
+                print("@")
             except:
                 pass
             ci = ci + 1

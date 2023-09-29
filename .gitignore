@@ -1,2 +1,6 @@
 *.jpg
 dontgit/
+__pycache__/
+*.pyc
+*.csv
+index.html
