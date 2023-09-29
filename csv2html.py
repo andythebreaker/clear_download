@@ -52,3 +52,12 @@ csvList = glob.glob('*.csv')
 for csvFile in csvList:
     print(csvFile)
     os.remove(csvFile)
+
+#create dir "./build"
+print("=====create dir ./build=====")
+if not os.path.exists("./build"):
+    os.makedirs("./build")
+
+#copy file "index.html" to "./build"
+print("=====copy file index.html to ./build=====")
+shutil.copy("index.html", "./build")
