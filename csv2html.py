@@ -45,3 +45,10 @@ for csvFile in csvList:
 maintxt+=htmlft
 with open("index.html", "w") as f:
     f.write(maintxt)
+
+#remove all .csv file
+print("=====remove all .csv file=====")
+csvList = glob.glob('*.csv')
+for csvFile in csvList:
+    print(csvFile)
+    os.remove(csvFile)
