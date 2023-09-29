@@ -38,7 +38,7 @@ jobs:
         run: |
           # Install Jekyll and build the site
           pip install -r require.txt
-          python download_user.py 3794592
+          python download_user.py --user=3794592
           python csv2html.py
       - name: Setup Pages
         uses: actions/configure-pages@v3
