@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+
+<head>
+    <title>nega4</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js" integrity="sha512-zlWWyZq71UMApAjih4WkaRpikgY9Bz1oXIW5G0fED4vk14JjGlQ1UmkGM392jEULP8jbNMiwLWdM8Z87Hu88Fw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.css" integrity="sha512-wJgJNTBBkLit7ymC6vvzM1EcSWeM9mmOu+1USHaRBbHkm6W9EgM0HY27+UtUaprntaYQJF75rc8gjxllKs5OIQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        #imageGrid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 10px;
+        }
+
+        .grid-item {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: cover;
+        }
+    </style>
+</head>
+
+<body>
+    <input type="file" id="imageInput" multiple>
+    <div id="imageGrid"></div>
+    <canvas id="canvas" width="2380" height="3368"></canvas> <!-- A4 dimensions in pixels -->
+
+    <script>
+        var imgsrcs = [];
+        const imageInput = document.getElementById('imageInput');
+        const imageGrid = document.getElementById('imageGrid');
+
+        imageInput.addEventListener('change', function () {
+            imageGrid.innerHTML = ''; // Clear previous images
+
+            const files = imageInput.files;
+            let loadedCount = 0; // Initialize a counter for loaded images
+
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                if (file.type.startsWith('image/')) {
+                    const imageElement = document.createElement('img');
+                    imageElement.classList.add('grid-item');
+                    imageElement.file = file;
+
+                    const reader = new FileReader();
+                    reader.onload = (function (aImg) {
+                        return function (e) {
+                            $.toast('Image loaded');
+
+                            imgsrcs.push(e.target.result);
+                            aImg.src = e.target.result;
+                            loadedCount++; // Increment the counter when an image is loaded
+                            if (loadedCount === files.length) {
+                                $.toast('finish!')
+                                for (let index = 0; index < handleOddOrEven(files.length) / 2; index++) {
+
+
+                                    const canvas = document.getElementById('canvas');
+                                    const ctx = canvas.getContext('2d');
+
+                                    const image1 = new Image();
+                                    const image2 = new Image();
+
+                                    // Replace these with the URLs of your images
+                                    image1.src = imgsrcs[2 * index];
+                                    image2.src = files.length % 2 === 0 ? imgsrcs[2 * index + 1] : createWhiteImageDataUrl(50, 50);
+
+                                    // Wait for both images to load and apply the negative effect
+                                    Promise.all([loadImage(image1), loadImage(image2)])
+                                        .then(images => {
+                                            const a4Width = canvas.width;
+                                            const a4Height = canvas.height;
+                                            const imageHeight = a4Height / 2;
+                                            const image11 = new Image();
+                                            const image22 = new Image();
+
+                                            // Replace these with the URLs of your images
+                                            image11.src = applyNegativeEffect(images[0]);
+                                            image22.src = applyNegativeEffect(images[1]);
+                                            Promise.all([loadImage(image11), loadImage(image22)])
+                                                .then(images => {
+                                                    const a4Width = canvas.width;
+                                                    const a4Height = canvas.height;
+                                                    const imageHeight = a4Height / 2;
+
+                                                    // Apply negative effect to the first image
+                                                    applyNegativeEffect(images[0]);
+
+                                                    // Apply negative effect to the second image
+                                                    applyNegativeEffect(images[1]);
+
+                                                    // Draw the first image
+                                                    ctx.drawImage(images[0], 0, 0, a4Width, imageHeight);
+
+                                                    // Draw the second image below the first one
+                                                    ctx.drawImage(images[1], 0, imageHeight, a4Width, imageHeight);
+
+                                                    // You can save the merged image or display it on the page
+
+                                                    canvas.toBlob(blob => {
+                                                        const url = URL.createObjectURL(blob);
+                                                        const a = document.createElement('a');
+                                                        a.href = url;
+                                                        a.download = `merged_image${getSafeDateTimeString()}.jpg`;
+                                                        a.click();
+                                                        URL.revokeObjectURL(url);
+                                                    }, 'image/jpeg');
+                                                })
+                                                .catch(error2 => {
+                                                    console.error('Error loading images:', error2);
+                                                });
+
+                                            // Draw the first image
+                                            //-ctx.drawImage(images[0], 0, 0, a4Width, imageHeight);
+
+                                            // Draw the second image below the first one
+                                            //-ctx.drawImage(images[1], 0, imageHeight, a4Width, imageHeight);
+
+                                            // You can save the merged image or display it on the page
+                                        })
+                                        .catch(error => {
+                                            console.error('Error loading images:', error);
+                                        });
+
+                                }
+                            }
+                        };
+                    })(imageElement);
+
+                    reader.readAsDataURL(file);
+                    imageGrid.appendChild(imageElement);
+                }
+            }
+        });
+
+
+
+
+        //*-*/
+
+
+        function getSafeDateTimeString() {
+            const currentDate = new Date();
+            const year = currentDate.getFullYear();
+            const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+            const day = currentDate.getDate().toString().padStart(2, '0');
+            const hours = currentDate.getHours().toString().padStart(2, '0');
+            const minutes = currentDate.getMinutes().toString().padStart(2, '0');
+            const seconds = currentDate.getSeconds().toString().padStart(2, '0');
+
+            // Combine the date and time components into a safe string
+            const dateTimeString = `${year}-${month}-${day}_${hours}-${minutes}-${seconds}`;
+
+            return dateTimeString;
+            // Example usage:
+            // const safeDateTimeString = getSafeDateTimeString();
+            // console.log(safeDateTimeString);
+        }
+
+        function loadImage(image) {
+            return new Promise((resolve, reject) => {
+                image.onload = () => resolve(image);
+                image.onerror = reject;
+            });
+        }
+
+        function applyNegativeEffect(imageElement) {
+            $.toast('running...')
+
+            // Get the image data from the image element
+            const canvas = document.createElement("canvas");
+            const ctx = canvas.getContext("2d");
+            canvas.width = imageElement.width;
+            canvas.height = imageElement.height;
+            ctx.drawImage(imageElement, 0, 0);
+
+            // Get the image data
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const data = imageData.data;
+
+            // Apply the negative effect by inverting the color values
+            for (let i = 0; i < data.length; i += 4) {
+                data[i] = 255 - data[i];     // Red
+                data[i + 1] = 255 - data[i + 1]; // Green
+                data[i + 2] = 255 - data[i + 2]; // Blue
+                // Note: data[i + 3] is the alpha channel, we're not modifying it here
+            }
+
+            // Put the modified image data back onto the canvas
+            ctx.putImageData(imageData, 0, 0);
+
+            // Replace the image source with the negative image
+            //imageElement.src = 
+            return canvas.toDataURL();
+
+
+        }
+
+
+        function handleOddOrEven(x) {
+            if (x % 2 === 0) {
+                return x;
+            } else {
+                return x + 1;
+            }
+        }
+        function createWhiteImageDataUrl(width, height) {
+            // Create a new canvas element
+            var canvas = document.createElement("canvas");
+            canvas.width = width;
+            canvas.height = height;
+
+            // Get the 2D rendering context
+            var ctx = canvas.getContext("2d");
+
+            // Set the fill color to white
+            ctx.fillStyle = "white";
+
+            // Fill the entire canvas with white
+            ctx.fillRect(0, 0, width, height);
+
+            // Convert the canvas to a Data URL
+            var dataUrl = canvas.toDataURL("image/png");
+
+            // Return the Data URL
+            return dataUrl;
+
+            // // Example usage:
+            // var whiteImageDataUrl = createWhiteImageDataUrl(50, 50);
+            // console.log(whiteImageDataUrl);
+        }
+
+    </script>
+</body>
+
+</html>

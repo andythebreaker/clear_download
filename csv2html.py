@@ -61,3 +61,7 @@ if not os.path.exists("./build"):
 #copy file "index.html" to "./build"
 print("=====copy file index.html to ./build=====")
 shutil.copy("index.html", "./build")
+
+#copy file "nega4.html" to "./build"
+print("=====copy file nega4.html to ./build=====")
+shutil.copy("nega4.html", "./build")
