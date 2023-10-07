@@ -67,18 +67,25 @@
                             // imgsrcs.push(file.name.endsWith('.psd') ? PSD.fromURL(e.target.result).then(function (psd) { return (psd.image.toPng().src); }) : e.target.result);
                             // aImg.src = file.name.endsWith('.psd') ? PSD.fromURL(e.target.result).then(function (psd) { return (psd.image.toPng().src); }) : e.target.result;
 
-                            // if(file.name.endsWith('.psd')){
+                            if (file.name.endsWith('.psd')) {
 
-
-                            // }else{
-                            imgsrcs.push(e.target.result);
-                            aImg.src = e.target.result;
-                            // }
-
-                            loadedCount++; // Increment the counter when an image is loaded
-                            if (loadedCount === files.length) {
-                                $.toast('finish!')
-                                finish(imgsrcs)
+                                PSD.fromURL(e.target.result).then(function (psd) {
+                                    imgsrcs.push(psd.image.toPng().src);
+                                    aImg.src = psd.image.toPng().src;
+                                    loadedCount++; // Increment the counter when an image is loaded
+                                    if (loadedCount === files.length) {
+                                        $.toast('finish!')
+                                        finish(imgsrcs)
+                                    }
+                                })
+                            } else {
+                                imgsrcs.push(e.target.result);
+                                aImg.src = e.target.result;
+                                loadedCount++; // Increment the counter when an image is loaded
+                                if (loadedCount === files.length) {
+                                    $.toast('finish!')
+                                    finish(imgsrcs)
+                                }
                             }
                         };
                     })(imageElement);
