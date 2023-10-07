@@ -16,6 +16,9 @@
     <script type="text/javascript"
         src="https://cdnjs.cloudflare.com/ajax/libs/webfont/1.6.24/webfontloader.js"></script>
     <script src="https://kit.fontawesome.com/695bf96da1.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/psd.js/2.0.0/psd.min.js"
+        integrity="sha512-HUXM31dA7nWd6Ffm5ucowxi4EifEN4b7BNkBdxIFJCqF6gI9JlO8btWW8RPnb3oU4h6miwAd5ILyU8C6zJFwiw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <style>
         #imageGrid {
             display: grid;
@@ -37,6 +40,8 @@
     <canvas id="canvas" width="2380" height="3368"></canvas> <!-- A4 dimensions in pixels -->
 
     <script>
+        var PSD = require('psd');
+
         var imgsrcs = [];
         const imageInput = document.getElementById('imageInput');
         const imageGrid = document.getElementById('imageGrid');
@@ -49,7 +54,7 @@
 
             for (let i = 0; i < files.length; i++) {
                 const file = files[i];
-                if (file.type.startsWith('image/')) {
+                if (file.type.startsWith('image/') || file.name.endsWith('.psd')) {
                     const imageElement = document.createElement('img');
                     imageElement.classList.add('grid-item');
                     imageElement.file = file;
@@ -59,82 +64,21 @@
                         return function (e) {
                             $.toast('Image loaded');
 
+                            // imgsrcs.push(file.name.endsWith('.psd') ? PSD.fromURL(e.target.result).then(function (psd) { return (psd.image.toPng().src); }) : e.target.result);
+                            // aImg.src = file.name.endsWith('.psd') ? PSD.fromURL(e.target.result).then(function (psd) { return (psd.image.toPng().src); }) : e.target.result;
+
+                            // if(file.name.endsWith('.psd')){
+
+
+                            // }else{
                             imgsrcs.push(e.target.result);
                             aImg.src = e.target.result;
+                            // }
+
                             loadedCount++; // Increment the counter when an image is loaded
                             if (loadedCount === files.length) {
                                 $.toast('finish!')
-                                for (let index = 0; index < handleOddOrEven(files.length) / 2; index++) {
-
-
-                                    const canvas = document.getElementById('canvas');
-                                    const ctx = canvas.getContext('2d');
-
-                                    const image1 = new Image();
-                                    const image2 = new Image();
-
-                                    // Replace these with the URLs of your images
-                                    image1.src = imgsrcs[2 * index];
-                                    image2.src = files.length % 2 === 0 ? imgsrcs[2 * index + 1] : createWhiteImageDataUrl(50, 50);
-
-                                    // Wait for both images to load and apply the negative effect
-                                    Promise.all([loadImage(image1), loadImage(image2)])
-                                        .then(images => {
-                                            const a4Width = canvas.width;
-                                            const a4Height = canvas.height;
-                                            const imageHeight = a4Height / 2;
-                                            const image11 = new Image();
-                                            const image22 = new Image();
-
-                                            // Replace these with the URLs of your images
-                                            image11.src = applyNegativeEffect(images[0]);
-                                            image22.src = applyNegativeEffect(images[1]);
-                                            Promise.all([loadImage(image11), loadImage(image22)])
-                                                .then(images => {
-                                                    const a4Width = canvas.width;
-                                                    const a4Height = canvas.height;
-                                                    const imageHeight = a4Height / 2;
-
-                                                    // Apply negative effect to the first image
-                                                    applyNegativeEffect(images[0]);
-
-                                                    // Apply negative effect to the second image
-                                                    applyNegativeEffect(images[1]);
-
-                                                    // Draw the first image
-                                                    ctx.drawImage(images[0], 0, 0, a4Width, imageHeight);
-
-                                                    // Draw the second image below the first one
-                                                    ctx.drawImage(images[1], 0, imageHeight, a4Width, imageHeight);
-
-                                                    // You can save the merged image or display it on the page
-
-                                                    canvas.toBlob(blob => {
-                                                        const url = URL.createObjectURL(blob);
-                                                        const a = document.createElement('a');
-                                                        a.href = url;
-                                                        a.download = `merged_image${getSafeDateTimeString()}.jpg`;
-                                                        a.click();
-                                                        URL.revokeObjectURL(url);
-                                                    }, 'image/jpeg');
-                                                })
-                                                .catch(error2 => {
-                                                    console.error('Error loading images:', error2);
-                                                });
-
-                                            // Draw the first image
-                                            //-ctx.drawImage(images[0], 0, 0, a4Width, imageHeight);
-
-                                            // Draw the second image below the first one
-                                            //-ctx.drawImage(images[1], 0, imageHeight, a4Width, imageHeight);
-
-                                            // You can save the merged image or display it on the page
-                                        })
-                                        .catch(error => {
-                                            console.error('Error loading images:', error);
-                                        });
-
-                                }
+                                finish(imgsrcs)
                             }
                         };
                     })(imageElement);
@@ -149,7 +93,71 @@
 
 
         //*-*/
+        function finish(imgsrcs) {
+            for (let index = 0; index < handleOddOrEven(imgsrcs.length) / 2; index++) {
 
+
+                const canvas = document.getElementById('canvas');
+                const ctx = canvas.getContext('2d');
+
+                const image1 = new Image();
+                const image2 = new Image();
+
+                // Replace these with the URLs of your images
+                image1.src = imgsrcs[2 * index];
+                image2.src = imgsrcs.length % 2 === 0 ? imgsrcs[2 * index + 1] : createWhiteImageDataUrl(50, 50);
+
+                // Wait for both images to load and apply the negative effect
+                Promise.all([loadImage(image1), loadImage(image2)])
+                    .then(images => {
+                        const a4Width = canvas.width;
+                        const a4Height = canvas.height;
+                        const imageHeight = a4Height / 2;
+                        const image11 = new Image();
+                        const image22 = new Image();
+
+                        // Replace these with the URLs of your images
+                        image11.src = applyNegativeEffect(images[0]);
+                        image22.src = applyNegativeEffect(images[1]);
+                        Promise.all([loadImage(image11), loadImage(image22)])
+                            .then(images => {
+                                const a4Width = canvas.width;
+                                const a4Height = canvas.height;
+                                const imageHeight = a4Height / 2;
+
+                                // Apply negative effect to the first image
+                                applyNegativeEffect(images[0]);
+
+                                // Apply negative effect to the second image
+                                applyNegativeEffect(images[1]);
+
+                                // Draw the first image
+                                ctx.drawImage(images[0], 0, 0, a4Width, imageHeight);
+
+                                // Draw the second image below the first one
+                                ctx.drawImage(images[1], 0, imageHeight, a4Width, imageHeight);
+
+                                // You can save the merged image or display it on the page
+
+                                canvas.toBlob(blob => {
+                                    const url = URL.createObjectURL(blob);
+                                    const a = document.createElement('a');
+                                    a.href = url;
+                                    a.download = `merged_image${getSafeDateTimeString()}.jpg`;
+                                    a.click();
+                                    URL.revokeObjectURL(url);
+                                }, 'image/jpeg');
+                            })
+                            .catch(error2 => {
+                                console.error('Error loading images:', error2);
+                            });
+                    })
+                    .catch(error => {
+                        console.error('Error loading images:', error);
+                    });
+
+            }
+        }
 
         function getSafeDateTimeString() {
             const currentDate = new Date();
@@ -270,7 +278,7 @@
     <br>並內建負片效果
     <br>點選下方按鈕選擇複數個檔案
     <br>下載將自動開始</p>`,
-                footer: `<p href="" style="font-family: 'Noto Sans TC', sans-serif;">andythebreaker</p>`,
+                footer: `<p href="" style="font-family: 'Noto Sans TC', sans-serif;">支援類型:png、jpg、jpeg、psd</p>`,
                 confirmButtonText:
                     '<i class="fa fa-file"></i> upload images',
                 confirmButtonAriaLabel: 'upload images',
