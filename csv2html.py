@@ -35,7 +35,7 @@ for csvFile in csvList:
     #print contant of .csv file
     print("=====print contant of .csv file=====")
     with open(csvFile, newline='') as csvfile:
-        spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
+        spamreader = csv.reader(csvfile)
         for row in spamreader:
             vara='</td><td>'.join(row)
             print(vara)
