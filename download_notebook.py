@@ -52,8 +52,8 @@ class ClearNotebooksScraper:
         notebook_category_grade__btn = soup0.find("a", {"class": "notebook-category-grade__btn"}).text
         notebook_category_school_year__btn = soup0.find("a", {"class": "notebook-category-school-year__btn"}).text
         notebook_category_subject__btn= soup0.find("a", {"class": "notebook-category-subject__btn"}).text
-        print(ttl,',',info_time[0].text,',',info_time[1].text,',',notebook_category_grade__btn,',',notebook_category_school_year__btn,',',notebook_category_subject__btn)
-
+        tosumup=ttl+','+info_time[0].text+','+info_time[1].text+','+notebook_category_grade__btn+','+notebook_category_school_year__btn+','+notebook_category_subject__btn
+        print(tosumup)
         #workflow
         # Open the CSV file in append mode
         import csv
@@ -64,7 +64,7 @@ class ClearNotebooksScraper:
             csvwriter = csv.writer(csvfile)
 
             # Write the text to the CSV file
-            csvwriter.writerow([ttl])
+            csvwriter.writerow([ttl,info_time[0].text,info_time[1].text,notebook_category_grade__btn,notebook_category_school_year__btn,notebook_category_subject__btn])
 
 
         print(f"Text '{ttl}' appended to {ind} successfully.")
