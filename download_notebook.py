@@ -48,16 +48,24 @@ class ClearNotebooksScraper:
         count = soup0.find_all("div", {"class": "pages__page__container"})
         ci = 0
         ttl = soup0.find("h1", {"class": "notebook__title"}).text
-        print(ttl)
+        info_time = soup0.find_all("time")
+        notebook_category_grade__btn = soup0.find("a", {"class": "notebook-category-grade__btn"}).text
+        notebook_category_school_year__btn = soup0.find("a", {"class": "notebook-category-school-year__btn"}).text
+        notebook_category_subject__btn= soup0.find("a", {"class": "notebook-category-subject__btn"}).text
+        print(ttl,',',info_time[0].text,',',info_time[1].text,',',notebook_category_grade__btn,',',notebook_category_school_year__btn,',',notebook_category_subject__btn)
 
         #workflow
         # Open the CSV file in append mode
-        with open(ind+'.csv', 'a', newline='') as csvfile:
+        import csv
+
+        # Assuming 'ind' and 'ttl' are defined elsewhere in your code
+        with open(ind + '.csv', 'a', newline='', encoding='utf-8') as csvfile:
             # Create a CSV writer object
             csvwriter = csv.writer(csvfile)
 
             # Write the text to the CSV file
             csvwriter.writerow([ttl])
+
 
         print(f"Text '{ttl}' appended to {ind} successfully.")
 
