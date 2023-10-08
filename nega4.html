@@ -37,7 +37,7 @@
 <body>
     <input type="file" id="imageInput" multiple>
     <div id="imageGrid"></div>
-    <canvas id="canvas" width="2380" height="3368"></canvas> <!-- A4 dimensions in pixels -->
+    <!--canvas id="canvas" width="2380" height="3368"></canvas> <?-- A4 dimensions in pixels ---->
 
     <script>
         var PSD = require('psd');
@@ -102,9 +102,21 @@
         //*-*/
         function finish(imgsrcs) {
             for (let index = 0; index < handleOddOrEven(imgsrcs.length) / 2; index++) {
+// Create a new canvas element
+var canvas = document.createElement('canvas');
+
+// Set the id attribute to "canvas1"
+canvas.id = `canvas1${index}`;
+
+// width="2380" height="3368"
+canvas.width = 2380; // Set your desired width
+canvas.height = 3368; // Set your desired height
+
+// Append the canvas element to the body of the HTML document
+document.body.appendChild(canvas);
 
 
-                const canvas = document.getElementById('canvas');
+                canvas = document.getElementById(`canvas1${index}`);
                 const ctx = canvas.getContext('2d');
 
                 const image1 = new Image();
