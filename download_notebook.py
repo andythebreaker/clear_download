@@ -49,9 +49,21 @@ class ClearNotebooksScraper:
         ci = 0
         ttl = soup0.find("h1", {"class": "notebook__title"}).text
         info_time = soup0.find_all("time")
-        notebook_category_grade__btn = soup0.find("a", {"class": "notebook-category-grade__btn"}).text
-        notebook_category_school_year__btn = soup0.find("a", {"class": "notebook-category-school-year__btn"}).text
-        notebook_category_subject__btn= soup0.find("a", {"class": "notebook-category-subject__btn"}).text
+        try:
+            notebook_category_grade__btn = soup0.find("a", {"class": "notebook-category-grade__btn"}).text
+        except AttributeError:
+            notebook_category_grade__btn = 'X'
+
+        try:
+            notebook_category_school_year__btn = soup0.find("a", {"class": "notebook-category-school-year__btn"}).text
+        except AttributeError:
+            notebook_category_school_year__btn = 'X'
+
+        try:
+            notebook_category_subject__btn = soup0.find("a", {"class": "notebook-category-subject__btn"}).text
+        except AttributeError:
+            notebook_category_subject__btn = 'X'
+
         tosumup=ttl+','+info_time[0].text+','+info_time[1].text+','+notebook_category_grade__btn+','+notebook_category_school_year__btn+','+notebook_category_subject__btn
         print(tosumup)
         #workflow
