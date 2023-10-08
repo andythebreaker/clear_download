@@ -37,7 +37,7 @@ for csvFile in csvList:
     with open(csvFile, newline='') as csvfile:
         spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
         for row in spamreader:
-            vara=', '.join(row)
+            vara='</td><td>'.join(row)
             print(vara)
             maintxt+="<tr><td>"+vara+"</td><td><a href=\"https://www.clearnotebooks.com/zh-TW/notebooks/"+csvFile_rm_FE+"\">"+csvFile_rm_FE+"</a></td></tr>"
 
