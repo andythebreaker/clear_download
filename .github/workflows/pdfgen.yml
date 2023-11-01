@@ -1,5 +1,5 @@
 # Simple workflow for deploying static content to GitHub Pages
-name: Deploy static content to Pages
+name: Deploy pdf
 
 on:
   # Runs on pushes targeting the default branch
@@ -38,11 +38,12 @@ jobs:
         run: |
           # Install Jekyll and build the site
           pip install -r require.txt
-          python download_user.py --user=3794592
-          python download_user.py --user=6431444
-          python download_user.py --user=6456506
-          python download_user.py --user=1590773
-          python download_user.py --user=3794751
+          npm i a4pic2pdf
+          python download_user_pic.py --user=3794592
+          python download_user_pic.py --user=6431444
+          python download_user_pic.py --user=6456506
+          python download_user_pic.py --user=1590773
+          python download_user_pic.py --user=3794751
           python csv2html.py
       - name: Setup Pages
         uses: actions/configure-pages@v3
