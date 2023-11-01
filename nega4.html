@@ -30,15 +30,16 @@
             max-width: 100%;
             max-height: 100%;
             object-fit: cover;
+            cursor: grab;
         }
     </style>
 </head>
 
 <body>
     <input type="file" id="imageInput" multiple>
-    <div id="imageGrid"></div>
+    <div class="image-grid" id="imageGrid"></div>
     <!--canvas id="canvas" width="2380" height="3368"></canvas> <?-- A4 dimensions in pixels ---->
-
+    <button onclick="finish(getAllImageSrcs())">New</button>
     <script>
         var PSD = require('psd');
 
@@ -58,6 +59,7 @@
                     const imageElement = document.createElement('img');
                     imageElement.classList.add('grid-item');
                     imageElement.file = file;
+                    imageElement.setAttribute('draggable', 'true');
 
                     const reader = new FileReader();
                     reader.onload = (function (aImg) {
@@ -102,18 +104,18 @@
         //*-*/
         function finish(imgsrcs) {
             for (let index = 0; index < handleOddOrEven(imgsrcs.length) / 2; index++) {
-// Create a new canvas element
-var canvas = document.createElement('canvas');
+                // Create a new canvas element
+                var canvas = document.createElement('canvas');
 
-// Set the id attribute to "canvas1"
-canvas.id = `canvas1${index}`;
+                // Set the id attribute to "canvas1"
+                canvas.id = `canvas1${index}`;
 
-// width="2380" height="3368"
-canvas.width = 2380; // Set your desired width
-canvas.height = 3368; // Set your desired height
+                // width="2380" height="3368"
+                canvas.width = 2380; // Set your desired width
+                canvas.height = 3368; // Set your desired height
 
-// Append the canvas element to the body of the HTML document
-document.body.appendChild(canvas);
+                // Append the canvas element to the body of the HTML document
+                document.body.appendChild(canvas);
 
 
                 canvas = document.getElementById(`canvas1${index}`);
@@ -312,6 +314,64 @@ document.body.appendChild(canvas);
                 }
             })
         });
+
+        /**drag**/
+        let draggedItem = null;
+
+        imageGrid.addEventListener("dragstart", (e) => {
+            draggedItem = e.target;
+            e.dataTransfer.setData("text/plain", "dummy"); // Required for Firefox
+        });
+
+        imageGrid.addEventListener("dragover", (e) => {
+            e.preventDefault();
+        });
+
+        imageGrid.addEventListener("drop", (e) => {
+            if (draggedItem) {
+                const target = e.target;
+                if (target.classList.contains("image-item")) {
+                    imageGrid.insertBefore(draggedItem, target);
+                } else {
+                    imageGrid.appendChild(draggedItem);
+                }
+                draggedItem = null;
+            }
+        });
+        function getAllImageSrcs() {
+            // Select the element with id="imageGrid"
+            var imageGrid = document.getElementById("imageGrid");
+
+            // Check if the element exists
+            if (imageGrid) {
+                // Select all <img> elements within the "imageGrid" element
+                var images = imageGrid.querySelectorAll("img");
+
+                // Create an array to store the src attributes
+                var srcArray = [];
+
+                // Loop through the selected images and add their src attributes to the array
+                for (var i = 0; i < images.length; i++) {
+                    srcArray.push(images[i].src);
+                }
+
+                return srcArray;
+            } else {
+                // Handle the case where the element with id="imageGrid" doesn't exist
+                console.error("The element with id='imageGrid' doesn't exist.");
+                return null;
+            }
+            //how to use
+            // Call the function to get an array of image src attributes
+            //var imageSrcArray = getAllImageSrcs();
+
+            // You can then use imageSrcArray for your needs
+            //console.log(imageSrcArray);
+        }
+
+
+
+        /**end drag**/
     </script>
 </body>
 
