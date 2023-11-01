@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QTe
 from PyQt5.QtGui import QTextCursor
 from PyQt5.QtCore import Qt, QThread, pyqtSignal
 from PyQt5.QtWebEngineWidgets import QWebEngineView
-from download_notebook import ClearNotebooksScraper
+from download_notebook_pic import ClearNotebooksScraper
 import sys
 import threading
 import queue

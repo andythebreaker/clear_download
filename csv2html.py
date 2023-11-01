@@ -39,7 +39,7 @@ for csvFile in csvList:
         for row in spamreader:
             vara='</td><td>'.join(row)
             print(vara)
-            maintxt+="<tr><td>"+vara+"</td><td><a href=\"https://www.clearnotebooks.com/zh-TW/notebooks/"+csvFile_rm_FE+"\">"+csvFile_rm_FE+"</a></td></tr>"
+            maintxt+="<tr><td>"+vara+"</td><td><a href=\"https://www.clearnotebooks.com/zh-TW/notebooks/"+csvFile_rm_FE+"\">"+csvFile_rm_FE+"</a></td><td><a href=\"./"+csvFile_rm_FE+".pdf\"></a></td></tr>"
 
 #write file index.html
 maintxt+=htmlft
