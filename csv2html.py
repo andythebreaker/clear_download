@@ -58,9 +58,29 @@ print("=====create dir ./build=====")
 if not os.path.exists("./build"):
     os.makedirs("./build")
 
+import backburst1
+import backburst2
+import backburst3
+import backburst4
+import backburst5
+
 #copy file "index.html" to "./build"
 print("=====copy file index.html to ./build=====")
 shutil.copy("index.html", "./build")
+
+#rename file "index.html" to "table.html"
+print("=====rename file index.html to table.html=====")
+os.rename("index.html", "table.html")
+
+backburst1.change_html_title("table.html")
+backburst2.add_css_and_js_to_html("table.html")
+backburst3.add_table_to_html("table.html")
+backburst4.add_footer_to_html_file("table.html")
+backburst5.add_button_to_html_file("table.html")
+
+#copy file "table.html" to "./build"
+print("=====copy file table.html to ./build=====")
+shutil.copy("table.html", "./build")
 
 #copy file "nega4.html" to "./build"
 print("=====copy file nega4.html to ./build=====")
