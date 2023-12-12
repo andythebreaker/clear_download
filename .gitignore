@@ -5,3 +5,4 @@ __pycache__/
 *.csv
 index.html
 node_modules/
+.vs
