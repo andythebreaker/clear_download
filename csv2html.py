@@ -73,10 +73,10 @@ print("=====rename file index.html to table.html=====")
 os.rename("index.html", "table.html")
 
 backburst1.change_html_title("table.html")
-backburst2.add_css_and_js_to_html("table.html")
-backburst3.add_table_to_html("table.html")
-backburst4.add_footer_to_html_file("table.html")
-backburst5.add_button_to_html_file("table.html")
+backburst2.add_style_to_html_file("table.html")
+backburst3.add_css_and_js_to_html("table.html")
+backburst4.add_table_to_html("table.html")
+backburst5.add_footer_to_html_file("table.html")
 
 #copy file "table.html" to "./build"
 print("=====copy file table.html to ./build=====")
