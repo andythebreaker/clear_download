@@ -1,2 +1,4 @@
 *.jpg
 dontgit/
+__pycache__/
+.vs
