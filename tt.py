@@ -1,23 +1,16 @@
-class MyContextManager:
-    def __enter__(self):
-        print("Entering the context")
-        return self
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        print("Exiting the context")
-
-    def __init__(self):
-        print("Initializing the object")
-    
-    def wt(self):
-        print("wht")
-
-with MyContextManager() as obj:
-    obj.wt()
-    print("Inside the context")
-
-# Output:
-# Initializing the object
-# Entering the context
-# Inside the context
-# Exiting the context
+import backburst1
+import backburst2
+import backburst3
+import backburst4
+import backburst5
+print("start")
+backburst1.change_html_title("index.html")
+print("finish backburst1")
+backburst2.add_style_to_html_file("index.html")
+print("finish backburst2")
+backburst3.add_css_and_js_to_html("index.html")
+print("finish backburst3")
+backburst4.add_table_to_html("index.html")
+print("finish backburst4")
+backburst5.add_footer_to_html_file("index.html")
+print("finish backburst5")
