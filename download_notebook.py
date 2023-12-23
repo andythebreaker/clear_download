@@ -59,7 +59,7 @@ class ClearNotebooksScraper:
             soup = BeautifulSoup(r.text, "html.parser")
             images = soup.findAll('img')
             iurl = images[0]['src']
-            iname = ttl + str(ci) + subjpg
+            iname = ttl + str(f'{ci:04d}') + subjpg
             try:
                 filename = wget.download(iurl, self.remove_any_kind_of_new_line(self.safe_file_name(iname,os.name)))#java' for Java Jython platforms.
             except:
