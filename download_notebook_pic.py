@@ -120,12 +120,15 @@ class ClearNotebooksScraper:
             r.encoding = 'utf-8'
             soup = BeautifulSoup(r.text, "html.parser")
             images = soup.findAll('img')
-            iurl = images[0]['src']
+            #iurl = images[0]['src']
             iname = ttl + str(ci) + subjpg
             try:
-                filename = wget.download(iurl, self.remove_any_kind_of_new_line(self.safe_file_name(iname,os.name)))#java' for Java Jython platforms.
+                iurl = images[0]['src']
+                filename = wget.download(iurl, self.remove_any_kind_of_new_line(self.safe_file_name(iname,os.name)))
                 print("@")
             except:
+                filename = wget.download('https://raw.githubusercontent.com/andythebreaker/clear_download/workflow/eof404.jpg', self.remove_any_kind_of_new_line(self.safe_file_name(iname,os.name)))
+                print('[hotfix]https://github.com/andythebreaker/clear_download/issues/3')
                 pass
             ci = ci + 1
         
