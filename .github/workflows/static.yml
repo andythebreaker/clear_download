@@ -47,6 +47,9 @@ jobs:
           python download_user.py --user=6605803
           python download_user.py --user=6651902
           python download_user.py --user=6745063
+          python download_user.py --user=2373177
+          python download_user.py --user=6791331
+          #python download_user.py --user=6792228
           python csv2html.py
       - name: Setup Pages
         uses: actions/configure-pages@v3
