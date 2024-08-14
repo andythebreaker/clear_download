@@ -39,8 +39,19 @@ jobs:
           # Install Jekyll and build the site
           pip install -r require.txt
           npm i a4pic2pdf
-          npm i txtonjpg -g
-          wget https://raw.githubusercontent.com/andythebreaker/clear_download/workflow/eof404.jpg
+          python download_user_pic.py --user=3794592
+          python download_user_pic.py --user=6431444
+          python download_user_pic.py --user=6456506
+          python download_user_pic.py --user=1590773
+          python download_user_pic.py --user=3794751
+          python download_user_pic.py --user=6570000
+          python download_user_pic.py --user=6605803
+          python download_user_pic.py --user=6651902
+          python download_user_pic.py --user=6745063
+          python download_user_pic.py --user=2373177
+          python download_user_pic.py --user=6791331
+          python download_user_pic.py --user=6792228
+          python download_user_pic.py --user=6886356
           python download_user_pic.py --user=6926121
           python csv2html.py
       - name: Setup Pages
