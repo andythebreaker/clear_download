@@ -127,7 +127,7 @@ class ClearNotebooksScraper:
                 filename = wget.download(iurl, self.remove_any_kind_of_new_line(self.safe_file_name(iname,os.name)))
                 print("@")
             except Exception as e:
-                subprocess.run(f"txtonjpg -s {e} -i eof404.jpg -o {self.remove_any_kind_of_new_line(self.safe_file_name(iname,os.name))}", shell=True)
+                subprocess.run(f"txtonjpg -s {e} -i eof404.jpg.1 -o {self.remove_any_kind_of_new_line(self.safe_file_name(iname,os.name))}", shell=True)
                 print('[hotfix]https://github.com/andythebreaker/clear_download/issues/3')
                 pass
             ci = ci + 1
