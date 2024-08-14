@@ -3,7 +3,6 @@
 
 ![image](https://github.com/andythebreaker/clear_download/assets/43373581/76448b69-8dc4-4d2a-bd7f-a1f0dfe04c37)
 
-- cover master
 
 ## 這是甚麼
 ## 聲明
