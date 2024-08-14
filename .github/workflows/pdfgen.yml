@@ -40,6 +40,7 @@ jobs:
           pip install -r require.txt
           npm i a4pic2pdf
           npm i txtonjpg -g
+          wget https://raw.githubusercontent.com/andythebreaker/clear_download/workflow/eof404.jpg
           python download_user_pic.py --user=6926121
           python csv2html.py
       - name: Setup Pages
