@@ -45,23 +45,21 @@ class ClearNotebooksScraper:
         if not os.path.exists("./build"):
             os.makedirs("./build")
 
-        # Define the directory where you want to delete files
-        directory = "."
-
-        # Define a list of file extensions to delete
-        extensions_to_delete = ['png', 'jpg', 'jpeg', 'webm']
-
-        # Iterate over the specified extensions and delete the corresponding files
-        for extension in extensions_to_delete:
-            file_pattern = os.path.join(directory, f'*.{extension}')
-            files_to_delete = glob.glob(file_pattern)
-
-            for file in files_to_delete:
-                try:
-                    os.remove(file)
-                    print(f"Deleted {file}")
-                except OSError as e:
-                    print(f"Error deleting {file}: {e}")
+        # !important! remove the code segment, due to cause bug
+        # # Define the directory where you want to delete files
+        # directory = "."
+        # # Define a list of file extensions to delete
+        # extensions_to_delete = ['png', 'jpg', 'jpeg', 'webm']
+        # # Iterate over the specified extensions and delete the corresponding files
+        # for extension in extensions_to_delete:
+        #     file_pattern = os.path.join(directory, f'*.{extension}')
+        #     files_to_delete = glob.glob(file_pattern)
+        #     for file in files_to_delete:
+        #         try:
+        #             os.remove(file)
+        #             print(f"Deleted {file}")
+        #         except OSError as e:
+        #             print(f"Error deleting {file}: {e}")
 
         if self.viewDebug:
             print("Deletion process complete.")
