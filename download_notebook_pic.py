@@ -140,7 +140,7 @@ class ClearNotebooksScraper:
             ci = ci + 1
         
         # Get a list of all .jpg files in the current directory
-        jpg_files = [file for file in os.listdir() if file.endswith(".jpg")]
+        jpg_files = [file for file in os.listdir() if file.endswith(".jpg") and file.startswith(ttl)]
 
         # Iterate through the list of .jpg files
         for jpg_file in jpg_files:
