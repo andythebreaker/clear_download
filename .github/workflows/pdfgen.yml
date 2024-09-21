@@ -72,6 +72,7 @@ jobs:
           python download_user_pic.py --user=6926121\n\
           python download_user_pic.py --user=6977703\n\
           python download_user_pic.py --user=6946100" | xargs -P 5 -I {} bash -c "{}"
+          echo "🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪"
           # Run the final command after all previous ones finish
           python csv2html.py
       - name: Setup Pages
