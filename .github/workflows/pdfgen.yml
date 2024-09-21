@@ -38,7 +38,7 @@ jobs:
         run: |
           # Install Jekyll and build the site
           pip install -r require.txt
-          npm i a4pic2pdf
+          npm i a4pic2pdf@2.2.4
           # python download_user_pic.py --user=3794592
           # python download_user_pic.py --user=6431444
           # python download_user_pic.py --user=6456506
