@@ -1,5 +1,10 @@
 # workflow
 
+## trace code
+
+1. `download_user_pic.py`
+2. `download_notebook_pic.py`
+
 ## logic
 
 1. `python download_user.py --user=3794592`

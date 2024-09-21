@@ -14,8 +14,9 @@ import glob
 from PIL import Image
 
 class ClearNotebooksScraper:
-    def __init__(self, note_id):
+    def __init__(self, note_id, viewDebug=False):
         self.note_id = note_id
+        self.viewDebug = viewDebug
 
     def safe_file_name(self,file_name, os_type):
         # Remove leading/trailing whitespaces
@@ -39,7 +40,8 @@ class ClearNotebooksScraper:
     def scrape_clear_notebooks(self):
 
     #create dir "./build"
-        print("=====create dir ./build=====")
+        if self.viewDebug:
+            print("=====create dir ./build=====")
         if not os.path.exists("./build"):
             os.makedirs("./build")
 
@@ -61,7 +63,8 @@ class ClearNotebooksScraper:
                 except OSError as e:
                     print(f"Error deleting {file}: {e}")
 
-        print("Deletion process complete.")
+        if self.viewDebug:
+            print("Deletion process complete.")
 
         non_bmp_map = dict.fromkeys(range(0x10000, sys.maxunicode + 1), 0xfffd)
         pre = "https://www.clearnotebooks.com/zh-TW/notebooks/"
@@ -94,7 +97,8 @@ class ClearNotebooksScraper:
             notebook_category_subject__btn = 'X'
 
         tosumup=ttl+','+info_time[0].text+','+info_time[1].text+','+notebook_category_grade__btn+','+notebook_category_school_year__btn+','+notebook_category_subject__btn
-        print(tosumup)
+        if self.viewDebug:
+            print(tosumup)
         #workflow
         # Open the CSV file in append mode
         import csv
@@ -108,13 +112,16 @@ class ClearNotebooksScraper:
             csvwriter.writerow([ttl,info_time[0].text,info_time[1].text,notebook_category_grade__btn,notebook_category_school_year__btn,notebook_category_subject__btn])
 
 
-        print(f"Text '{ttl}' appended to {ind} successfully.")
+        if self.viewDebug:
+            print(f"Text '{ttl}' appended to {ind} successfully.")
 
-        print("=====")
+        if self.viewDebug:
+            print("=====")
         for objc in count:
-            print("=====")
-            print(ci)
-            print("=====")
+            if self.viewDebug:
+                print("=====")
+                print(ci)
+                print("=====")
             rq = picP + ind + pag + str(ci)
             r = requests.get(rq)  # Retrieve web page data
             r.encoding = 'utf-8'
@@ -125,10 +132,12 @@ class ClearNotebooksScraper:
             try:
                 iurl = images[0]['src']
                 filename = wget.download(iurl, self.remove_any_kind_of_new_line(self.safe_file_name(iname,os.name)))
-                print("@")
+                if self.viewDebug:
+                    print("@")
             except:
                 filename = wget.download('https://raw.githubusercontent.com/andythebreaker/clear_download/workflow/eof404.jpg', self.remove_any_kind_of_new_line(self.safe_file_name(iname,os.name)))
-                print('[hotfix]https://github.com/andythebreaker/clear_download/issues/3')
+                if self.viewDebug:
+                    print('[hotfix]https://github.com/andythebreaker/clear_download/issues/3')
                 pass
             ci = ci + 1
         
@@ -149,7 +158,8 @@ class ClearNotebooksScraper:
             # Remove the original .jpg file
             os.remove(jpg_file)
 
-        print("Conversion and deletion complete.")
+        if self.viewDebug:
+            print("Conversion and deletion complete.")
         # Define the command you want to execute
         command = ["node", "genpdf.js", ".", "./build", str(ind),f'{ttl}']
 
@@ -166,11 +176,13 @@ if __name__ == "__main__":
     for arg in args:
         if "--id=" in arg:
             note_id = arg.split("=")[1]
+        elif arg == "--debug":
+            viewDebug = True
 
     # Prompt for input if note_id is not provided as a command-line argument
     if not note_id:
         note_id = input("number of clear note: ")
 
-    scraper = ClearNotebooksScraper(note_id)
+    scraper = ClearNotebooksScraper(note_id, viewDebug)
     scraper.scrape_clear_notebooks()
 
