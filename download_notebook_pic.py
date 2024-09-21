@@ -151,7 +151,7 @@ class ClearNotebooksScraper:
 
         print("Conversion and deletion complete.")
         # Define the command you want to execute
-        command = ["node", "genpdf.js", ".", "./build", str(ind)]
+        command = ["node", "genpdf.js", ".", "./build", str(ind),f'{ttl}']
 
         # Run the command using subprocess
         subprocess.run(command, check=True)
