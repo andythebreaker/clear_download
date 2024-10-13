@@ -28,8 +28,8 @@ def add_table_to_html(input_file_name):
         # You can manually specify the number of replacements by changing the 4th argument
         result = re.sub(regex, subst, test_str, 0, re.MULTILINE)
 
-        if result:
-            print (result)
+        #if result:
+            #print (result)
 
         # Note: for Python 2.7 compatibility, use ur"" to prefix the regex and u"" to prefix the test string and substitution.
         # coding=utf8
@@ -43,8 +43,8 @@ def add_table_to_html(input_file_name):
         # You can manually specify the number of replacements by changing the 4th argument
         result = re.sub(regex, subst, test_str, 0, re.MULTILINE)
 
-        if result:
-            print (result)
+        #if result:
+            #print (result)
 
         # Note: for Python 2.7 compatibility, use ur"" to prefix the regex and u"" to prefix the test string and substitution.
 
