@@ -1,5 +1,9 @@
 # workflow
 
+## note
+
+現在我只維護PDF的ID
+
 ## trace code
 
 1. `download_user_pic.py`
