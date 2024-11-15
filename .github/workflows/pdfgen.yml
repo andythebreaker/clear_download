@@ -73,6 +73,7 @@ jobs:
           python download_user_pic.py --user=6977703\n\
           python download_user_pic.py --user=6612572\n\
           python download_user_pic.py --user=6743571\n\
+          python download_user_pic.py --user=6551128\n\
           python download_user_pic.py --user=6946100" | xargs -P 5 -I {} bash -c "{}"
           echo "🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪"
           # Run the final command after all previous ones finish
