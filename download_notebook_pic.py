@@ -77,7 +77,7 @@ class ClearNotebooksScraper:
         soup0 = BeautifulSoup(r0.text, "html.parser")
         count = soup0.find_all("div", {"class": "pages__page__container"})
         ci = 0
-        ttl = soup0.find("h1", {"class": "notebook__title"}).text
+        ttl = soup0.find("h1", {"class": "notebook__title"}).text.lstrip()
         info_time = soup0.find_all("time")
         try:
             notebook_category_grade__btn = soup0.find("a", {"class": "notebook-category-grade__btn"}).text
