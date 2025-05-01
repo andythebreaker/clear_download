@@ -2,9 +2,9 @@
 name: Deploy static content to Pages
 
 on:
-  # Runs on pushes targeting the default branch
-  push:
-    branches: ["master","workflow"]
+  # 先把自動啟動取消
+  #push:
+    #branches: ["master","workflow"]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
