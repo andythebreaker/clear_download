@@ -23,7 +23,7 @@ concurrency:
 
 jobs:
   # Single deploy job since we're just deploying
-  deploy:
+  build:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -38,22 +38,10 @@ jobs:
         run: |
           # Install Jekyll and build the site
           pip install -r require.txt
-          python download_user.py --user=3794592
-          python download_user.py --user=6431444
-          python download_user.py --user=6456506
-          python download_user.py --user=1590773
-          python download_user.py --user=3794751
-          python download_user.py --user=6570000
-          python download_user.py --user=6605803
-          python download_user.py --user=6651902
-          python download_user.py --user=6745063
-          python download_user.py --user=2373177
-          python download_user.py --user=6791331
-          python download_user.py --user=6792228
-          python download_user.py --user=6886356
-          python download_user.py --user=6926121
-          python download_user.py --user=6977703
-          python download_user.py --user=6946100
+          echo -e "python download_user.py --user=6977703\n\
+          python download_user.py --user=6456506" | xargs -P 5 -I {} bash -c "{}"
+          echo "🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪"
+          # Run the final command after all previous ones finish
           python csv2html.py
       - name: Setup Pages
         uses: actions/configure-pages@v3
@@ -63,6 +51,22 @@ jobs:
           # Upload entire repository
           path: './build'
           overwrite: true
+          name: github-pages
+      # - name: Deploy to GitHub Pages
+      #   id: deployment
+      #   uses: actions/deploy-pages@v2
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    # permissions:
+    #   pages: write
+    #   id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
+        with:
+          artifact_name: github-pages
