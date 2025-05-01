@@ -36,7 +36,7 @@ jobs:
           # Install Jekyll and build the site
           pip install -r require.txt
           # 安裝你需要的 npm 套件
-          npm i a4pic2pdf@2.2.4
+          npm i a4pic2pdf@2.3.0
           
           # 1) 把所有使用者 ID 放進 Bash array
           USERS=(
