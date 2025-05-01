@@ -18,6 +18,8 @@ jobs:
     steps:
       # 1. 取代舊版 checkout
       - uses: actions/checkout@v4   # 官方建議使用 latest v4 tag
+        with:
+            ref: workflow
 
       # 2. 安裝相依並產生靜態檔
       - name: Build HTML
