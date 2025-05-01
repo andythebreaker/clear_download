@@ -2,9 +2,9 @@
 name: Deploy pdf
 
 on:
-  # Runs on pushes targeting the default branch
-  push:
-    branches: ["master","workflow"]
+  # 除錯先關自動
+  #push:
+    #branches: ["master","workflow"]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
