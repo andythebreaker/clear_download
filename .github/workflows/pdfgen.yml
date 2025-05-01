@@ -22,54 +22,68 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # Single deploy job since we're just deploying
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  build:
     runs-on: ubuntu-22.04
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+      # 1. 取代舊版 checkout
+      - uses: actions/checkout@v4   # 官方建議使用 latest v4 tag
         with:
-          ref: workflow # Specify the branch you want to check out
-      # Add a step to compile your HTML using Jekyll
+            ref: workflow
+
+      # 2. 安裝相依並產生靜態檔
       - name: Build HTML
         run: |
           # Install Jekyll and build the site
           pip install -r require.txt
+          # 安裝你需要的 npm 套件
           npm i a4pic2pdf@2.2.4
-          # python download_user_pic.py --user=6431444\n\
-          # python download_user_pic.py --user=6456506\n\
-          # python download_user_pic.py --user=1590773\n\
-          # python download_user_pic.py --user=3794751\n\
-          # python download_user_pic.py --user=6570000\n\
-          # python download_user_pic.py --user=6605803\n\
-          # python download_user_pic.py --user=6651902\n\
-          # python download_user_pic.py --user=6745063\n\
-          # python download_user_pic.py --user=2373177\n\
-          # python download_user_pic.py --user=6791331\n\
-          # python download_user_pic.py --user=6792228\n\
-          # python download_user_pic.py --user=6886356\n\
-          # python download_user_pic.py --user=6926121\n\
-          # python download_user_pic.py --user=6977703\n\
-          # python download_user_pic.py --user=6612572\n\
-          # python download_user_pic.py --user=6743571\n\
-          # python download_user_pic.py --user=6551128\n\
-          echo -e "python download_user_pic.py --user=3794592\n\
-          python download_user_pic.py --user=6946100" | xargs -P 5 -I {} bash -c "{}"
+          
+          # 1) 把所有使用者 ID 放進 Bash array
+          USERS=(
+            6431444 6456506 1590773 3794751 6570000
+            6605803 6651902 6745063 2373177 6791331
+            6792228 6886356 6926121 6977703 6612572
+            6743571 6551128 3794592 6946100
+          )
+
+          # 2) 用 printf 逐行列出 → xargs 讀進去並平行執行
+          printf '%s\n' "${USERS[@]}" \
+          | xargs -P 5 -n 1 -I {} bash -c 'python download_user_pic.py --user={}'
+
+          echo "🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪"
+          python csv2html.py
+
+      - name: Build HTML
+        run: |
+          # Install Jekyll and build the site
+          pip install -r require.txt
+          echo -e "python download_user.py --user=6977703\n\
+          python download_user.py --user=6456506" | xargs -P 5 -I {} bash -c "{}"
           echo "🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪"
           # Run the final command after all previous ones finish
           python csv2html.py
-      - name: Setup Pages
-        uses: actions/configure-pages@v3
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
+
+      # 3. 寫入 Pages metadata
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5   # 新版 v5
+
+      # 4. 打包並上傳符合 Pages 規範的 artifact
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          # Upload entire repository
-          path: './build'
-          overwrite: true
-          name: github-pages # 👈 加上這一行
+          path: build              # 指向靜態檔根目錄
+          # 不必再手動指定 name=github-pages；Action 會自動處理
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    permissions:
+      pages: write
+      id-token: write
+    steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v4      # 與官方示例一致
