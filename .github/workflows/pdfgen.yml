@@ -53,16 +53,6 @@ jobs:
           echo "🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪"
           python csv2html.py
 
-      - name: Build HTML
-        run: |
-          # Install Jekyll and build the site
-          pip install -r require.txt
-          echo -e "python download_user.py --user=6977703\n\
-          python download_user.py --user=6456506" | xargs -P 5 -I {} bash -c "{}"
-          echo "🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪🤪"
-          # Run the final command after all previous ones finish
-          python csv2html.py
-
       # 3. 寫入 Pages metadata
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5   # 新版 v5
