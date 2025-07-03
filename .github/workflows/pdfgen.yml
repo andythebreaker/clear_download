@@ -30,18 +30,19 @@ jobs:
         with:
             ref: workflow
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
+      - name: Install system Chromium
+        run: sudo apt-get update && sudo apt-get install -y chromium
+      
+      - name: Install NPM deps (skip bundled Chromium)
+        env:
+          PUPPETEER_SKIP_DOWNLOAD: 'true'        # post-install script exits early :contentReference[oaicite:4]{index=4}
+          PUPPETEER_EXECUTABLE_PATH: /usr/bin/chromium
+        run: npm i a4pic2pdf@2.3.0
+
       
       # 2. 安裝相依並產生靜態檔
       - name: Build HTML
         run: |
-          # 安裝你需要的 npm 套件
-          node --version
-          npm --version
-          npm i a4pic2pdf@2.3.0
           # Install Jekyll and build the site
           pip install -r requirements.txt
           
