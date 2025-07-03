@@ -33,8 +33,7 @@ jobs:
       # 0️⃣  (optional) cache Node stuff exactly once
       - uses: actions/setup-node@v4
         with:
-          node-version: 20         # or whatever you need
-          cache: npm
+          node-version: 22
 
       # 1️⃣  Install Chrome via a dedicated Action
       - uses: browser-actions/setup-chrome@v1      # ~10–20 s
@@ -64,10 +63,10 @@ jobs:
         run: |
           # 1) 把所有使用者 ID 放進 Bash array
           USERS=(
-            6431444 6456506 1590773 3794751 6570000
+            6946100 6456506 1590773 3794751 6570000
             6605803 6651902 6745063 2373177 6791331
             6792228 6886356 6926121 6977703 6612572
-            6743571 6551128 3794592 6946100
+            6743571 6551128 3794592 6431444
           )
 
           # 2) 用 printf 逐行列出 → xargs 讀進去並平行執行
