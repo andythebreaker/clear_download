@@ -1,6 +1,0 @@
-numpy
-matplotlib
-beautifulsoup4
-requests
-wget
-Pillow
