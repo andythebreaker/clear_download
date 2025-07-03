@@ -83,5 +83,5 @@ if __name__ == "__main__":
     if not usr_id:
         usr_id = input("Enter clear user id: ")
 
-    scraper = ClearUsrScraper(usr_id, viewDebug=False)
+    scraper = ClearUsrScraper(usr_id, viewDebug=True)
     scraper.scrape_clear_usr()
