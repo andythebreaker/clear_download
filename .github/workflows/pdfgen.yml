@@ -51,7 +51,7 @@ jobs:
           PUPPETEER_EXECUTABLE_PATH: ${{ steps.chrome.outputs.chrome-path }}  # ← Action gives you the exact path:contentReference[oaicite:0]{index=0}
         run: |
           npm i puppeteer@24.11.2
-          npm i a4pic2pdf@2.3.1
+          npm i a4pic2pdf@2.3.2
 
 
       - name: Install python packages
