@@ -79,6 +79,14 @@ class ClearNotebooksScraper:
         ci = 0
         ttl = soup0.find("h1", {"class": "notebook__title"}).text.lstrip()
         info_time = soup0.find_all("time")
+
+        # Fallback value when a second <time> tag isn't present
+        fallback = "2003年04月30日 23時54分"
+        
+        # Safely grab the first two times (or the fallback)
+        time0 = info_time[0].get_text(strip=True) if len(info_time) >= 1 else fallback
+        time1 = info_time[1].get_text(strip=True) if len(info_time) >= 2 else fallback
+        
         try:
             notebook_category_grade__btn = soup0.find("a", {"class": "notebook-category-grade__btn"}).text
         except AttributeError:
@@ -94,7 +102,7 @@ class ClearNotebooksScraper:
         except AttributeError:
             notebook_category_subject__btn = 'X'
 
-        tosumup=ttl+','+info_time[0].text+','+info_time[1].text+','+notebook_category_grade__btn+','+notebook_category_school_year__btn+','+notebook_category_subject__btn
+        tosumup=ttl+','+time0+','+time1+','+notebook_category_grade__btn+','+notebook_category_school_year__btn+','+notebook_category_subject__btn
         if self.viewDebug:
             print(tosumup)
         #workflow
@@ -107,7 +115,7 @@ class ClearNotebooksScraper:
             csvwriter = csv.writer(csvfile)
 
             # Write the text to the CSV file
-            csvwriter.writerow([ttl,info_time[0].text,info_time[1].text,notebook_category_grade__btn,notebook_category_school_year__btn,notebook_category_subject__btn])
+            csvwriter.writerow([ttl,time0,time1,notebook_category_grade__btn,notebook_category_school_year__btn,notebook_category_subject__btn])
 
 
         if self.viewDebug:
