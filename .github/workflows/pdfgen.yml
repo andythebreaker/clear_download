@@ -34,7 +34,7 @@ jobs:
       - name: Build HTML
         run: |
           # Install Jekyll and build the site
-          pip install -r require.txt
+          pip install -r requirements.txt
           # 安裝你需要的 npm 套件
           npm i a4pic2pdf@2.3.0
           
