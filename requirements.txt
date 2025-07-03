@@ -1,10 +1,6 @@
-# ----- released during 2020 -----
-numpy==1.21.2 ; python_version >= "3.10"    # first wheel for 3.10:contentReference[oaicite:1]{index=1}
-numpy==1.19.4 ; python_version <  "3.10"    # 2020 version for old Pythons
-matplotlib==3.3.3      # 12 Nov 2020 :contentReference[oaicite:1]{index=1}
-beautifulsoup4==4.9.3  # 3 Oct 2020 :contentReference[oaicite:2]{index=2}
-requests==2.25.1       # 16 Dec 2020 :contentReference[oaicite:3]{index=3}
-Pillow==8.0.1          # 22 Oct 2020 :contentReference[oaicite:4]{index=4}
-
-# ----- no 2020 release available -----
-wget==3.2              # last update 22 Oct 2015 (still the newest) :contentReference[oaicite:5]{index=5}
+numpy
+matplotlib
+beautifulsoup4
+requests
+Pillow
+wget
