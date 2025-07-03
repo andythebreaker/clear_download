@@ -30,6 +30,11 @@ jobs:
         with:
             ref: workflow
 
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      
       # 2. 安裝相依並產生靜態檔
       - name: Build HTML
         run: |
