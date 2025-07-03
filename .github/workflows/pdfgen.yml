@@ -52,13 +52,16 @@ jobs:
           PUPPETEER_EXECUTABLE_PATH: ${{ steps.chrome.outputs.chrome-path }}  # ← Action gives you the exact path:contentReference[oaicite:0]{index=0}
         run: npm i a4pic2pdf@2.3.0
 
-      
-      # 2. 安裝相依並產生靜態檔
-      - name: Build HTML
+
+      - name: Install python packages
         run: |
           # Install Jekyll and build the site
           pip install -r requirements.txt
-          
+
+      
+      # 2. main logic
+      - name: Build HTML
+        run: |
           # 1) 把所有使用者 ID 放進 Bash array
           USERS=(
             6431444 6456506 1590773 3794751 6570000
