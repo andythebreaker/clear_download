@@ -210,7 +210,7 @@ class ClearNotebooksScraper:
         if self.viewDebug:
             print("Conversion and deletion complete.")
 
-        make_pdf(".", "./build", str(ind), f'{ttl}')
+        make_pdf(".", "./build", str(ind), f'{ttl}.pdf')
 
         # Define the command you want to execute
         #command = ["node", "genpdf.js", ".", "./build", str(ind),f'{ttl}']
