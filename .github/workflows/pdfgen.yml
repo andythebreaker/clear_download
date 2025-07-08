@@ -39,10 +39,10 @@ jobs:
       # 2️⃣  Run your original “npm install” but tell Puppeteer to:
       #     • skip its own 150 MB download
       #     • use the Chrome we just installed
-      - name: Install a4pic2pdf (use system Chrome)
-        run: |
-          npm i puppeteer@24.11.2
-          npm i a4pic2pdf@2.3.2
+      # - name: Install a4pic2pdf (use system Chrome)
+      #   run: |
+      #     npm i puppeteer@24.11.2
+      #     npm i a4pic2pdf@2.3.2
 
 
       - name: Install python packages
