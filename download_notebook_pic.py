@@ -13,6 +13,49 @@ import subprocess
 import glob
 from PIL import Image
 
+from reportlab.lib.pagesizes import A4
+from reportlab.pdfgen import canvas
+from reportlab.lib.utils import ImageReader
+
+def make_pdf(img_input_dir, output_dir, pdf_filename, img_prefix):
+    # 1. 收集文件
+    allowed_exts = {'.jpg', '.jpeg', '.png', '.webm'}
+    files = sorted([
+        fn for fn in os.listdir(img_input_dir)
+        if os.path.splitext(fn)[1].lower() in allowed_exts
+           and fn.startswith(img_prefix)
+    ])
+    if not files:
+        print(f'No files found with prefix "{img_prefix}" in {img_input_dir}')
+        sys.exit(1)
+
+    # 2. 创建输出目录
+    os.makedirs(output_dir, exist_ok=True)
+    out_path = os.path.join(output_dir, pdf_filename)
+
+    # 3. 创建 Canvas
+    c = canvas.Canvas(out_path, pagesize=A4)
+    width, height = A4  # 单位：points (1 point = 1/72 inch)
+
+    for fn in files:
+        img_path = os.path.join(img_input_dir, fn)
+        img = ImageReader(img_path)
+        iw, ih = img.getSize()
+
+        # 计算缩放比例，使图片按比例填满 A4（留白可以自行调整）
+        scale = min(width/iw, height/ih)
+        iw_scaled, ih_scaled = iw*scale, ih*scale
+
+        # 居中放置
+        x = (width - iw_scaled) / 2
+        y = (height - ih_scaled) / 2
+
+        c.drawImage(img, x, y, iw_scaled, ih_scaled)
+        c.showPage()
+
+    c.save()
+    print(f'生成 PDF：{out_path}')
+
 class ClearNotebooksScraper:
     def __init__(self, note_id, viewDebug=False):
         self.note_id = note_id
@@ -166,11 +209,16 @@ class ClearNotebooksScraper:
 
         if self.viewDebug:
             print("Conversion and deletion complete.")
+
+        make_pdf(".", "./build", str(ind), f'{ttl}')
+
         # Define the command you want to execute
-        command = ["node", "genpdf.js", ".", "./build", str(ind),f'{ttl}']
+        #command = ["node", "genpdf.js", ".", "./build", str(ind),f'{ttl}']
+
+        #make_pdf(img_input_dir, output_dir, pdf_filename, img_prefix)
 
         # Run the command using subprocess
-        subprocess.run(command, check=True)
+        #subprocess.run(command, check=True)
 
 if __name__ == "__main__":
 
