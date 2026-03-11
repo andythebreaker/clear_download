@@ -4,3 +4,4 @@ beautifulsoup4
 requests
 Pillow
 wget
+reportlab
