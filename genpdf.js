@@ -27,4 +27,4 @@ if (filesToUpload.length === 0) {
 
 const outputLocationDir = path.join(process.cwd(), outputDir);
 
-a4pic2pdf(filesToUpload, outputLocationDir, pdfFilename);
+a4pic2pdf(filesToUpload, outputLocationDir, pdfFilename+'.pdf');
